@@ -1,0 +1,21 @@
+[package]
+name = "cachereg_rs"
+version = "1.0.0"
+authors = ["Georg Brandl <g.brandl@fz-juelich.de>"]
+description = "Registrator for the NICOS cache."
+
+[[bin]]
+name = "cachereg_rs"
+path = "src/main.rs"
+
+[dependencies]
+chan-signal = "*"
+daemonize = "*"
+byteorder = "*"
+structopt = "*"
+interfaces = "*"
+itertools = "*"
+hostname = "*"
+dns-lookup = "*"
+mlzlog = "*"
+log = "*"
