@@ -38,11 +38,9 @@ extern crate interfaces;
 extern crate itertools;
 extern crate daemonize;
 extern crate chan_signal;
-extern crate hostname;
-extern crate dns_lookup;
+extern crate mlzutil;
 
 mod reg;
-mod util;
 
 use std::net::Ipv4Addr;
 use std::path::PathBuf;
@@ -59,7 +57,7 @@ pub struct Options {
     #[structopt(short="b", long="broadcast", help="Broadcast address to use")]
     broadcast: Option<Ipv4Addr>,
     #[structopt(short="i", long="interface", default_value="eth0", help="Network interface to use",
-                parse(try_from_str = "util::parse_interface"))]
+                parse(try_from_str = "mlzutil::net::iface::parse_interface"))]
     interface: interfaces::Interface,
     #[structopt(short="a", long="additional-cache", help="Additional cache")]
     addcache: Option<String>,
@@ -88,8 +86,8 @@ pub struct Options {
 fn main() {
     let opts = Options::from_args();
 
-    let logdir = util::abspath(&opts.logdir);
-    let pidpath = util::abspath(&opts.pidfile);
+    let logdir = mlzutil::fs::abspath(&opts.logdir);
+    let pidpath = mlzutil::fs::abspath(&opts.pidfile);
     if opts.daemonize {
         let mut daemon = daemonize::Daemonize::new();
         if let Some(user) = &opts.user {
@@ -105,7 +103,7 @@ fn main() {
     if let Err(err) = mlzlog::init(Some(&logdir), "cachereg", false, opts.verbose, true) {
         eprintln!("could not initialize logging: {}", err);
     }
-    if let Err(err) = util::write_pidfile(&pidpath) {
+    if let Err(err) = mlzutil::fs::write_pidfile(&pidpath, "cachereg") {
         error!("could not write PID file: {}", err);
     }
     // handle SIGINT and SIGTERM
@@ -125,5 +123,5 @@ fn main() {
     // wait for a signal to finish
     signal_chan.recv().unwrap();
     info!("quitting...");
-    util::remove_pidfile(pidpath);
+    mlzutil::fs::remove_pidfile(pidpath, "cachereg");
 }

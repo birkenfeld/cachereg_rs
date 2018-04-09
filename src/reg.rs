@@ -24,8 +24,7 @@ use std::net::{Ipv4Addr, UdpSocket};
 use std::thread;
 use std::time::Duration;
 use chan_signal;
-
-use util;
+use mlzutil;
 
 const CACHE_PORT: u16 = 14869;
 
@@ -41,7 +40,7 @@ pub struct Registrar {
 impl Registrar {
     pub fn new(opts: Options) -> Result<Self, Box<Error>> {
         let (query_msg, msg) = Self::registration_msgs(&opts);
-        let (ip, mask) = util::ipv4_addr(&opts.interface.addresses)
+        let (ip, mask) = mlzutil::net::iface::ipv4_addr(&opts.interface.addresses)
             .ok_or("no IP address found for this interface")?;
         let sock = UdpSocket::bind((ip, 0))?;
         sock.set_broadcast(true)?;
@@ -55,7 +54,7 @@ impl Registrar {
             addrs.push(broadcast_addr);
         }
 
-        if let Some(addr) = opts.addcache.as_ref().and_then(|a| util::lookup_ipv4(&a)) {
+        if let Some(addr) = opts.addcache.as_ref().and_then(|a| mlzutil::net::lookup_ipv4(&a)) {
             addrs.push(addr);
         }
 
@@ -84,7 +83,7 @@ impl Registrar {
     }
 
     fn registration_msgs(opts: &Options) -> (String, String) {
-        let fqdn = util::getfqdn();
+        let fqdn = mlzutil::net::getfqdn();
         let identifier = opts.identifier.as_ref().unwrap_or(&fqdn);
         let setupname = opts.setupname.as_ref().map_or(fqdn.split('.').next().unwrap(), |s| &*s);
         let prefix = format!("+{}@se/{}/nicos", opts.ttl, identifier);
@@ -105,7 +104,7 @@ impl Registrar {
         }
         if let Ok((_, src_addr)) = sock.recv_from(&mut buf) {
             debug!("got unicast reply from {:?}", src_addr);
-            Some(util::unwrap_ipv4(src_addr.ip()))
+            Some(mlzutil::net::unwrap_ipv4(src_addr.ip()))
         } else {
             debug!("no unicast reply, continuing to broadcast");
             None

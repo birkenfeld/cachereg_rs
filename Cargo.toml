@@ -15,7 +15,6 @@ byteorder = "*"
 structopt = "*"
 interfaces = "*"
 itertools = "*"
-hostname = "*"
-dns-lookup = "*"
 mlzlog = "*"
+mlzutil = { version = "*", features = ["interfaces"] }
 log = "*"
