@@ -23,12 +23,12 @@ use std::error::Error;
 use std::net::{Ipv4Addr, UdpSocket};
 use std::thread;
 use std::time::Duration;
-use chan_signal;
+use log::{debug, info, warn};
 use mlzutil;
 
 const CACHE_PORT: u16 = 14869;
 
-use Options;
+use crate::Options;
 
 pub struct Registrar {
     opts: Options,
@@ -38,7 +38,7 @@ pub struct Registrar {
 }
 
 impl Registrar {
-    pub fn new(opts: Options) -> Result<Self, Box<Error>> {
+    pub fn new(opts: Options) -> Result<Self, Box<dyn Error>> {
         let (query_msg, msg) = Self::registration_msgs(&opts);
         let (ip, mask) = mlzutil::net::iface::ipv4_addr(&opts.interface.addresses)
             .ok_or("no IP address found for this interface")?;
@@ -49,25 +49,28 @@ impl Registrar {
 
         let broadcast_addr = Self::broadcast_addr(&opts, (ip, mask));
         if let Some(addr) = Self::find_unicast_addr(&sock, broadcast_addr, query_msg) {
+            info!("registering to cache at {}", addr);
             addrs.push(addr);
         } else {
+            warn!("didn't find cache address, continuing to broadcast");
             addrs.push(broadcast_addr);
         }
 
         if let Some(addr) = opts.addcache.as_ref().and_then(|a| mlzutil::net::lookup_ipv4(&a)) {
+            debug!("registering to additional cache at {}", addr);
             addrs.push(addr);
         }
 
         Ok(Registrar { opts, msg, sock, addrs })
     }
 
-    pub fn run(self) {
+    pub fn run(self) -> Result<(), Box<dyn Error>> {
         info!("starting registration loop...");
         loop {
             if !self.opts.checkfile.as_ref().map_or(true, |f| f.exists()) {
                 info!("file {} not present anymore, exiting",
                       self.opts.checkfile.as_ref().unwrap().display());
-                chan_signal::kill_this(chan_signal::Signal::TERM);
+                return Ok(());
             }
 
             debug!("sending registration message");

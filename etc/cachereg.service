@@ -1,0 +1,12 @@
+[Unit]
+Description=NICOS cache registrant
+After=network-online.target
+Requires=network-online.target
+
+[Service]
+Type=notify
+EnvironmentFile=-/etc/default/cachereg
+ExecStart=/usr/sbin/cachereg $ARGS
+
+[Install]
+WantedBy=multi-user.target

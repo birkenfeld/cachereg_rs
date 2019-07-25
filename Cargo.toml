@@ -1,20 +1,17 @@
 [package]
-name = "cachereg_rs"
-version = "1.0.0"
+name = "cachereg"
+version = "0.1.0"
 authors = ["Georg Brandl <g.brandl@fz-juelich.de>"]
 description = "Registrator for the NICOS cache."
+edition = "2018"
 
-[[bin]]
-name = "cachereg_rs"
-path = "src/main.rs"
+[profile.release]
+lto = true
+debug = false
 
 [dependencies]
-chan-signal = "*"
-daemonize = "*"
-byteorder = "*"
+log = "*"
+systemd = "*"
 structopt = "*"
 interfaces = "*"
-itertools = "*"
-mlzlog = "*"
 mlzutil = { version = "*", features = ["interfaces"] }
-log = "*"
