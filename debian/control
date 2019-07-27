@@ -1,0 +1,16 @@
+Source: cachereg
+Section: misc
+Priority: optional
+Maintainer: Georg Brandl <g.brandl@fz-juelich.de>
+Build-Depends: debhelper-compat (= 11),
+ cargo,
+ pkg-config,
+ libsystemd-dev
+Standards-Version: 4.3.0
+
+Package: cachereg
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Registrant for the NICOS cache
+ A daemon for sample environment boxes that registers presence of the
+ box to the instrument NICOS cache, and optionally a global cache.
