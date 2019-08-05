@@ -1,3 +1,12 @@
+cachereg (0.1.1) unstable; urgency=low
+
+  [ Georg Brandl ]
+  * Make debian files compatible with compat 11.
+
+  [ Jenkins ]
+
+ -- Jenkins <jenkins@debuild.taco.frm2>  Mon, 05 Aug 2019 08:35:57 +0200
+
 cachereg (0.1.0) unstable; urgency=medium
 
   * Specify dependency versions.
