@@ -34,7 +34,7 @@ pub struct Options {
     #[structopt(short="b", long="broadcast", help="Broadcast address to use")]
     broadcast: Option<Ipv4Addr>,
     #[structopt(short="i", long="interface", default_value="eth0", help="Network interface to use",
-                parse(try_from_str = "mlzutil::net::iface::parse_interface"))]
+                parse(try_from_str=mlzutil::net::iface::parse_interface))]
     interface: interfaces::Interface,
     #[structopt(short="a", long="additional-cache", help="Additional cache")]
     addcache: Option<String>,
