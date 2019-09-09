@@ -35,7 +35,7 @@ pub struct Options {
     broadcast: Option<Ipv4Addr>,
     #[structopt(short="i", long="interface", default_value="eth0", help="Network interface to use",
                 parse(try_from_str=mlzutil::net::iface::parse_interface))]
-    interface: interfaces::Interface,
+    interface: systemstat::data::Network,
     #[structopt(short="a", long="additional-cache", help="Additional cache")]
     addcache: Option<String>,
     #[structopt(short="t", long="network-timeout", default_value="2.0", help="Network timeout (sec)")]

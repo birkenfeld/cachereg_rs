@@ -13,5 +13,5 @@ debug = false
 log = "0.4.8"
 systemd = "0.4.0"
 structopt = "0.3.0"
-interfaces = "0.0.4"
-mlzutil = { version = "0.1.1", features = ["interfaces"] }
+systemstat = "0.1.4"
+mlzutil = "0.2.0"

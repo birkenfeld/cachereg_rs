@@ -40,7 +40,7 @@ pub struct Registrar {
 impl Registrar {
     pub fn new(opts: Options) -> Result<Self, Box<dyn Error>> {
         let (query_msg, msg) = Self::registration_msgs(&opts);
-        let (ip, mask) = mlzutil::net::iface::ipv4_addr(&opts.interface.addresses)
+        let (ip, mask) = mlzutil::net::iface::ipv4_addr(&opts.interface.addrs)
             .ok_or("no IP address found for this interface")?;
         let sock = UdpSocket::bind((ip, 0))?;
         sock.set_broadcast(true)?;
