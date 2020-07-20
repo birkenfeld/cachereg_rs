@@ -1,3 +1,13 @@
+cachereg (0.1.3) unstable; urgency=medium
+
+  * update dependencies
+  * update mlzutil
+  * remove unused error return
+  * dependency update
+  * on startup, wait for hostname != localhost
+
+ -- Georg Brandl <jenkins@jenkinsng.admin.frm2.tum.de>  Mon, 20 Jul 2020 18:27:48 +0200
+
 cachereg (0.1.1) unstable; urgency=low
 
   [ Georg Brandl ]
