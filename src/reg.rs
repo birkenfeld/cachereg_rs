@@ -64,13 +64,13 @@ impl Registrar {
         Ok(Registrar { opts, msg, sock, addrs })
     }
 
-    pub fn run(self) -> Result<(), Box<dyn Error>> {
+    pub fn run(self) {
         info!("starting registration loop...");
         loop {
             if !self.opts.checkfile.as_ref().map_or(true, |f| f.exists()) {
                 info!("file {} not present anymore, exiting",
                       self.opts.checkfile.as_ref().unwrap().display());
-                return Ok(());
+                return;
             }
 
             debug!("sending registration message");

@@ -68,10 +68,7 @@ fn main() {
         }
         Ok(reg) => {
             let _ = daemon::notify(false, Some((daemon::STATE_READY, "1")).iter());
-            if let Err(err) = reg.run() {
-                log::error!("in handler: {}", err);
-                std::process::exit(1);
-            }
+            reg.run();
         }
     }
 }
