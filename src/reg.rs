@@ -39,7 +39,8 @@ pub struct Registrar {
 
 impl Registrar {
     pub fn new(opts: Options) -> Result<Self, Box<dyn Error>> {
-        let (query_msg, msg) = Self::registration_msgs(&opts);
+        let fqdn = Self::wait_for_fqdn();
+        let (query_msg, msg) = Self::registration_msgs(&opts, fqdn);
         let (ip, mask) = mlzutil::net::iface::ipv4_addr(&opts.interface.addrs)
             .ok_or("no IP address found for this interface")?;
         let sock = UdpSocket::bind((ip, 0))?;
@@ -85,8 +86,18 @@ impl Registrar {
         }
     }
 
-    fn registration_msgs(opts: &Options) -> (String, String) {
-        let fqdn = mlzutil::net::getfqdn();
+    fn wait_for_fqdn() -> String {
+        loop {
+            let fqdn = mlzutil::net::getfqdn();
+            if fqdn != "localhost" {
+                return fqdn;
+            }
+            debug!("waiting for hostname...");
+            thread::sleep(Duration::from_millis(500));
+        }
+    }
+
+    fn registration_msgs(opts: &Options, fqdn: String) -> (String, String) {
         let identifier = opts.identifier.as_ref().unwrap_or(&fqdn);
         let setupname = opts.setupname.as_ref().map_or(fqdn.split('.').next().unwrap(), |s| &*s);
         let prefix = format!("+{}@se/{}/nicos", opts.ttl, identifier);
