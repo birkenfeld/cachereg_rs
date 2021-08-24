@@ -15,4 +15,5 @@ systemd = "0.7.1"       # older Debian systemd
 structopt = "0.3.0"
 systemstat = "<=0.1.5"  # 1.41.1
 dns-lookup = "=1.0.5"   # 1.41.1
+bitflags = "=1.2.1"     # 1.41.1
 mlzutil = "0.2.1"
