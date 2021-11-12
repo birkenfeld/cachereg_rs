@@ -29,7 +29,7 @@ cachereg (0.1.1) unstable; urgency=low
 
   [ Jenkins ]
 
- -- Jenkins <jenkins@debuild.taco.frm2>  Mon, 05 Aug 2019 08:35:57 +0200
+ -- Jenkins <jenkins@debuild.taco.frm2.tum.de>  Mon, 05 Aug 2019 08:35:57 +0200
 
 cachereg (0.1.0) unstable; urgency=medium
 
@@ -40,4 +40,4 @@ cachereg (0.1.0) unstable; urgency=medium
   * Specify dependency versions.
   * Add debian files
 
- -- Georg Brandl <gbrandl@jcnsopc78.jcns.frm2>  Sat, 27 Jul 2019 07:20:16 +0200
+ -- Georg Brandl <gbrandl@jcnsopc78.jcns.frm2.tum.de>  Sat, 27 Jul 2019 07:20:16 +0200
