@@ -1,7 +1,8 @@
 .PHONY: build install release-patch release-minor release
 
 build:
-	cargo build --release
+	# workaround for buster
+	CARGO_NET_GIT_FETCH_WITH_CLI=true cargo build --release
 
 install: build
 	install -m 755 -D target/release/cachereg $(DESTDIR)/usr/sbin/cachereg
