@@ -11,9 +11,9 @@ debug = false
 
 [dependencies]
 log = "0.4.8"
-systemd = "0.7.1"       # older Debian systemd
+systemd = "0.10.0"
 structopt = "0.3.0"
-systemstat = "<=0.1.5"  # 1.41.1
-dns-lookup = "=1.0.5"   # 1.41.1
-bitflags = "=1.2.1"     # 1.41.1
-mlzutil = "0.2.1"
+systemstat = "0.1.5"
+dns-lookup = "1.0.5"
+bitflags = "1.2.1"
+mlzutil = "0.2.2"
