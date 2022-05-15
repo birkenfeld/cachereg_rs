@@ -1,6 +1,6 @@
 [package]
 name = "cachereg"
-version = "0.1.5"
+version = "1.0.0"
 authors = ["Georg Brandl <g.brandl@fz-juelich.de>"]
 description = "Registrator for the NICOS cache."
 edition = "2018"
